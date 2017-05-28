@@ -84,6 +84,6 @@ public class MediaDataTests {
     public void authenticationState() {
         AuthenticationState authenticationState = AuthenticationState.SUCCESS;
         Assert.assertEquals("SUCCESS",authenticationState.getName());
-        Assert.assertEquals("200",authenticationState.getCode());
+        Assert.assertEquals(200L ,authenticationState.getCode());
     }
 }
