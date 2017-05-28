@@ -13,6 +13,9 @@ import edu.hm.huberneumeier.shareit.media.media.Copy;
 import edu.hm.huberneumeier.shareit.media.media.Disc;
 import edu.hm.huberneumeier.shareit.media.media.Medium;
 import edu.hm.huberneumeier.shareit.media.resources.MediaResource;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.webapp.WebAppContext;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +31,8 @@ import java.io.IOException;
  * @author Andreas Neumeier
  * @version 2017-04-26
  */
-public class MediaResourceTest {
+public class MediaResourceTest_AllServicesRunningLocal {
+    private final MediaResource mediaResource = new MediaResource();
     private static final String EXAMPLE_ISBN = "9781566199094";
     private static final String EXAMPLE_ISBN_2 = "9783827317100";
     private static final String EXAMPLE_ISBN_3 = "4003301018398";
@@ -39,28 +43,30 @@ public class MediaResourceTest {
     private static final String EXAMPLE_BARCODE_3 = "0000000000000";
     private static final String EXAMPLE_INCORRECT_BARCODE = "0000000000001";
     private static final String EXAMPLE_INCORRECT_BARCODE_2 = "00000%000x001";
+
     private static final Response RESPONSE_CREATE = Response.status(MediaServiceResult.CREATED.getCode()).entity(jsonMapper(MediaServiceResult.CREATED)).build();
     private static final Response RESPONSE_BAD_REQUEST = Response.status(MediaServiceResult.BAD_REQUEST.getCode()).entity(jsonMapper(MediaServiceResult.BAD_REQUEST)).build();
     private static final Response RESPONSE_ACCEPTED = Response.status(MediaServiceResult.ACCEPTED.getCode()).entity(jsonMapper(MediaServiceResult.ACCEPTED)).build();
     private static final Response RESPONSE_NOT_MODIFIED = Response.status(MediaServiceResult.NOT_MODIFIED.getCode()).entity(jsonMapper(MediaServiceResult.NOT_MODIFIED)).build();
     private static final Response RESPONSE_NOT_FOUND = Response.status(MediaServiceResult.NOT_FOUND.getCode()).entity(jsonMapper(MediaServiceResult.NOT_FOUND)).build();
-    private final MediaResource mediaResource = new MediaResource();
+
+    public static final String APP_URL = "/";
+    public static final int PORT = 8082;
+    public static final String WEBAPP_DIR = "./src/main/webapp/";
+    private static Server server;
+    private static boolean setUpIsDone = false;
+
     private String validToken;
 
-    private static String jsonMapper(Object object) {
-        ObjectMapper mapper = new ObjectMapper();
-        String jsonString = null;
-        try {
-            jsonString = mapper.writeValueAsString(object);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return jsonString;
-    }
-
     @Before
-    public void setupToken() throws IOException {
-        MediaResource.setIsUnitTesting(true);
+    public void startServer() throws Exception {
+        if (!setUpIsDone) {
+            Server server = new Server(PORT);
+            server.setHandler(new WebAppContext(WEBAPP_DIR, APP_URL));
+            server.start();
+
+            setUpIsDone = true;
+        }
         UnauthenticatedUser correctUser = new UnauthenticatedUser("admin", "123456");
         String json = (String) new AuthenticationResource().authenticateUser(correctUser).getEntity();
         ObjectNode object = new ObjectMapper().readValue(json, ObjectNode.class);
@@ -449,6 +455,7 @@ public class MediaResourceTest {
         Assert.assertEquals(correctGetResponse.getEntity().toString(), response.getEntity().toString());
     }
 
+
     @Test
     public void updateDiscsChangeAuthorTitleSetGetAfterwards() throws Exception {
         mediaResource.clearMediaService();
@@ -616,33 +623,14 @@ public class MediaResourceTest {
         Assert.assertEquals(RESPONSE_BAD_REQUEST.getEntity().toString(), updateResponse.getEntity().toString());
     }
 
-    @Test
-    public void checkBooksEquals() throws Exception {
-        Book book = new Book("test", "test", EXAMPLE_ISBN);
-        Book book2 = new Book("test", "test", EXAMPLE_ISBN);
-        Assert.assertTrue(book.equals(book2));
-    }
-
-    @Test
-    public void checkDiscsEquals() throws Exception {
-        Disc disc = new Disc(EXAMPLE_BARCODE, "test", 0, "test");
-        Disc disc2 = new Disc(EXAMPLE_BARCODE, "test", 0, "test");
-        Assert.assertTrue(disc.equals(disc2));
-    }
-
-    @Test
-    public void checkCopy() throws Exception {
-        Disc disc = new Disc(EXAMPLE_BARCODE, "test", 0, "test");
-        Copy copy = new Copy("owner", disc);
-        Copy copy2 = new Copy("owner", disc);
-
-        Assert.assertTrue(copy.equals(copy2));
-    }
-
-    @Test
-    public void checkEmptyConstructors() throws Exception {
-        Medium medium = new Medium();
-        Medium medium2 = new Medium();
-        Assert.assertTrue(medium.equals(medium2));
+    private static String jsonMapper(Object object) {
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = null;
+        try {
+            jsonString = mapper.writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return jsonString;
     }
 }

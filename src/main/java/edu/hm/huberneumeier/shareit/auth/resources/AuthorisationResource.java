@@ -2,9 +2,9 @@ package edu.hm.huberneumeier.shareit.auth.resources;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.hm.huberneumeier.shareit.auth.media.Authorisation;
 import edu.hm.huberneumeier.shareit.auth.logic.authorisation.AuthorisationImpl;
 import edu.hm.huberneumeier.shareit.auth.logic.authorisation.ValidationResult;
-import edu.hm.huberneumeier.shareit.auth.media.Authorisation;
 import edu.hm.huberneumeier.shareit.auth.media.jsonMappings.AuthorisationIDRequest;
 
 import javax.ws.rs.Consumes;
@@ -28,13 +28,6 @@ public class AuthorisationResource {
      */
     private static final AuthorisationImpl AUTHORISATION = new AuthorisationImpl();
 
-    /**
-     * Valideate request response.
-     *
-     * @param token                  the token
-     * @param authorisationIDRequest the authorisation id request
-     * @return the response
-     */
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)

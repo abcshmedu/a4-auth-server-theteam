@@ -5,11 +5,6 @@
  *  @author Axel Böttcher <axel.boettcher@hm.edu>
  */
 
-/**
- * Method to save token for authenticating the user on the other request.
- * Set a cookie with the token string.
- * The string is added as url parameter to every request the client sends to the server.
- */
 var submitAuthenticateUser = function () {
     var json = JSON.stringify({
         username: $("input[name=username]").val(),

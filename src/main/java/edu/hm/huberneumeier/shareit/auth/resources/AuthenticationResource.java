@@ -7,10 +7,7 @@ import edu.hm.huberneumeier.shareit.auth.logic.authentication.AuthenticationResu
 import edu.hm.huberneumeier.shareit.auth.logic.authentication.AuthenticationState;
 import edu.hm.huberneumeier.shareit.auth.media.jsonMappings.UnauthenticatedUser;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -28,12 +25,6 @@ public class AuthenticationResource {
      */
     private static final AuthenticationImpl AUTHENTICATION = new AuthenticationImpl();
 
-    /**
-     * Authenticate user response.
-     *
-     * @param unathUser the unath user
-     * @return the response
-     */
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
