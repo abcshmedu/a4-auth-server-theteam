@@ -5,10 +5,6 @@
  *  @author Axel Böttcher <axel.boettcher@hm.edu>
  */
 
-/**
- * Method to authenticate a user on the system.
- * If everything is fine with the username and the password, a cookie with the token is set on the system.
- */
 var submitAuthenticateUser = function () {
     var json = JSON.stringify({
         username: $("input[name=username]").val(),
