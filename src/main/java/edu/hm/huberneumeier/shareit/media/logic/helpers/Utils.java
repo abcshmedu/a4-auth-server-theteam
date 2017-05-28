@@ -16,13 +16,13 @@ import java.util.Objects;
  */
 public final class Utils {
 
+    private static final int BARCODE_LENGTH = 13;
+
     /**
      * Private default constructor, it should not be possible to create a instance.
      */
     private Utils() {
     }
-
-    private static final int BARCODE_LENGTH = 13;
 
     /**
      * Get all media of a given type.
