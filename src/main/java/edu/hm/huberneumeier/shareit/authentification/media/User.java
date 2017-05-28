@@ -1,14 +1,16 @@
-package edu.hm.huberneumeier.shareit.auth.media;
+package edu.hm.huberneumeier.shareit.authentification.media;
+
+import edu.hm.huberneumeier.shareit.authentification.logic.authorisation.AuthorisationGroup;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Represents a user object.
+ * Description...
  *
  * @author Tobias Huber
- * @version 28.05.2017
+ * @version 2017-05-17
  */
 public class User {
     private String username;
@@ -17,34 +19,18 @@ public class User {
     private Token token;
     private AuthorisationGroup authorisationGroup;
 
-    /**
-     * Instantiates a new User.
-     *
-     * @param username the username
-     * @param password the password
-     */
     public User(String username, String password) {
-        this(username, password, AuthorisationGroup.USERS);
+        this.username = username;
+        this.password = password;
+        authorisationGroup = AuthorisationGroup.USERS;
     }
 
-    /**
-     * Instantiates a new User.
-     *
-     * @param username           the username
-     * @param password           the password
-     * @param authorisationGroup the authorisation group
-     */
     public User(String username, String password, AuthorisationGroup authorisationGroup) {
         this.username = username;
         this.password = password;
         this.authorisationGroup = authorisationGroup;
     }
 
-    /**
-     * Gets user list.
-     *
-     * @return the user list
-     */
     public static Map<String, User> getUserList() {
         //create different users
         final Map<String, User> users = new HashMap();
@@ -53,56 +39,26 @@ public class User {
         return users;
     }
 
-    /**
-     * Gets username.
-     *
-     * @return the username
-     */
     public String getUsername() {
         return username;
     }
 
-    /**
-     * Gets password.
-     *
-     * @return the password
-     */
     public String getPassword() {
         return password;
     }
 
-    /**
-     * Gets token.
-     *
-     * @return the token
-     */
     public Token getToken() {
         return token;
     }
 
-    /**
-     * Sets token.
-     *
-     * @param token the token
-     */
     public void setToken(Token token) {
         this.token = token;
     }
 
-    /**
-     * Gets authorisation group.
-     *
-     * @return the authorisation group
-     */
     public AuthorisationGroup getAuthorisationGroup() {
         return authorisationGroup;
     }
 
-    /**
-     * Sets authorisation group.
-     *
-     * @param authorisationGroup the authorisation group
-     */
     public void setAuthorisationGroup(AuthorisationGroup authorisationGroup) {
         this.authorisationGroup = authorisationGroup;
     }

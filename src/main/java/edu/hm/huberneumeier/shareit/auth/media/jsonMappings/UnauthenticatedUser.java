@@ -10,19 +10,38 @@ public class UnauthenticatedUser {
     private String username;
     private String password;
 
-    public UnauthenticatedUser(){
+    /**
+     * Instantiates a new Unauthenticated user.
+     */
+    public UnauthenticatedUser() {
 
     }
 
+    /**
+     * Instantiates a new Unauthenticated user.
+     *
+     * @param username the username
+     * @param password the password
+     */
     public UnauthenticatedUser(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
+    /**
+     * Gets username.
+     *
+     * @return the username
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * Gets password.
+     *
+     * @return the password
+     */
     public String getPassword() {
         return password;
     }

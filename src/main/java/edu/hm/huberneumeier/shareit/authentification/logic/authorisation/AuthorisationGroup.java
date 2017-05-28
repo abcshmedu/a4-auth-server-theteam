@@ -1,45 +1,27 @@
-package edu.hm.huberneumeier.shareit.auth.media;
+package edu.hm.huberneumeier.shareit.authentification.logic.authorisation;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Combine multiple Authorisations to AuthorisationGroups.
+ * Description...
  *
- * @author Andreas Neumeier
  * @author Tobias Huber
- * @version 28.05.2017
+ * @version 2017-05-17
  */
 public enum AuthorisationGroup {
 
-    /**
-     * Admins authorisation group.
-     */
     ADMINS("admins", getAdminAuthorisations()),
-    /**
-     * Users authorisation group.
-     */
     USERS("users", getUserAuthorisations());
 
     private final String name;
     private final List<Authorisation> authorisations;
 
-    /**
-     * Constructor of authorisation group.
-     *
-     * @param name           the name of the authorisation group.
-     * @param authorisations the authorisations mapped to the group.
-     */
     AuthorisationGroup(String name, List<Authorisation> authorisations) {
         this.name = name;
         this.authorisations = authorisations;
     }
 
-    /**
-     * The authorisations mapped to the admin group.
-     *
-     * @return
-     */
     private static List<Authorisation> getAdminAuthorisations() {
         final List<Authorisation> adminAuths = new ArrayList<>();
         adminAuths.add(Authorisation.BOOK_CREATE);
@@ -53,11 +35,6 @@ public enum AuthorisationGroup {
         return adminAuths;
     }
 
-    /**
-     * The authorisation mapped to the user group.
-     *
-     * @return
-     */
     private static List<Authorisation> getUserAuthorisations() {
         final List<Authorisation> userAuths = new ArrayList<>();
         userAuths.add(Authorisation.BOOK_READ);
@@ -65,20 +42,10 @@ public enum AuthorisationGroup {
         return userAuths;
     }
 
-    /**
-     * Gets name.
-     *
-     * @return the name
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     * Gets authorisations.
-     *
-     * @return the authorisations
-     */
     public List<Authorisation> getAuthorisations() {
         return authorisations;
     }
