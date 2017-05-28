@@ -31,6 +31,14 @@ public class User {
         this.authorisationGroup = authorisationGroup;
     }
 
+    public static Map<String, User> getUserList() {
+        //create different users
+        final Map<String, User> users = new HashMap();
+        users.put("admin", new User("admin", "123456", AuthorisationGroup.ADMINS));
+        users.put("user", new User("user", "123456"));
+        return users;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -55,12 +63,9 @@ public class User {
         this.authorisationGroup = authorisationGroup;
     }
 
-    public static Map<String, User> getUserList() {
-        //create different users
-        final Map<String, User> users = new HashMap();
-        users.put("admin", new User("admin", "123456", AuthorisationGroup.ADMINS));
-        users.put("user", new User("user", "123456"));
-        return users;
+    @Override
+    public int hashCode() {
+        return username.hashCode();
     }
 
     @Override
@@ -71,10 +76,5 @@ public class User {
         User user = (User) o;
 
         return username.equals(user.username);
-    }
-
-    @Override
-    public int hashCode() {
-        return username.hashCode();
     }
 }

@@ -1,7 +1,5 @@
 package edu.hm.huberneumeier.shareit.authentification.logic.authorisation;
 
-import edu.hm.huberneumeier.shareit.authentification.logic.authorisation.Authorisation;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,15 +22,7 @@ public enum AuthorisationGroup {
         this.authorisations = authorisations;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public List<Authorisation> getAuthorisations() {
-        return authorisations;
-    }
-
-    private static List<Authorisation> getAdminAuthorisations(){
+    private static List<Authorisation> getAdminAuthorisations() {
         final List<Authorisation> adminAuths = new ArrayList<>();
         adminAuths.add(Authorisation.BOOK_CREATE);
         adminAuths.add(Authorisation.BOOK_READ);
@@ -44,10 +34,19 @@ public enum AuthorisationGroup {
         adminAuths.add(Authorisation.DISC_DELETE);
         return adminAuths;
     }
-    private static List<Authorisation> getUserAuthorisations(){
+
+    private static List<Authorisation> getUserAuthorisations() {
         final List<Authorisation> userAuths = new ArrayList<>();
         userAuths.add(Authorisation.BOOK_READ);
         userAuths.add(Authorisation.DISC_READ);
         return userAuths;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public List<Authorisation> getAuthorisations() {
+        return authorisations;
     }
 }

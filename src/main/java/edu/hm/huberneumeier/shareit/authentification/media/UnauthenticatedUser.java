@@ -10,7 +10,7 @@ public class UnauthenticatedUser {
     private String username;
     private String password;
 
-    public UnauthenticatedUser(){
+    public UnauthenticatedUser() {
 
     }
 

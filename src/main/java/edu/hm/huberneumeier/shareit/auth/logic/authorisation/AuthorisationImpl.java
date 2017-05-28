@@ -26,6 +26,12 @@ public class AuthorisationImpl implements AuthServiceInternal {
         return result;
     }
 
+    /**
+     * Check if a token is valid.
+     *
+     * @param token the token which should be checked.
+     * @return the result of the validation.
+     */
     private ValidationResult validateToken(Token token) {
         ValidationResult result;
         if (token != null && UserData.userExists(token)) {
@@ -41,6 +47,13 @@ public class AuthorisationImpl implements AuthServiceInternal {
         return result;
     }
 
+    /**
+     * Check if the user associated with the token, has the authorisation which is necessary.
+     *
+     * @param user          the user for which the authorisation should be validated.
+     * @param authorisation the authorisation which should be validated.
+     * @return the result of the validation.
+     */
     private ValidationResult validateAuthorisation(User user, Authorisation authorisation) {
         ValidationResult result;
         List<Authorisation> auths = user.getAuthorisationGroup().getAuthorisations();

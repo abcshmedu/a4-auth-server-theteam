@@ -1,9 +1,5 @@
 package edu.hm.huberneumeier.shareit.authentification.logic.authorisation;
 
-import edu.hm.huberneumeier.shareit.authentification.logic.authorisation.Authorisation;
-import edu.hm.huberneumeier.shareit.authentification.logic.authorisation.ValidationResult;
-import edu.hm.huberneumeier.shareit.authentification.media.Token;
-
 /**
  * Description...
  *

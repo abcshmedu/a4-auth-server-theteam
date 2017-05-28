@@ -13,10 +13,10 @@ import java.util.Map;
  */
 public class Token {
     private static final int LENGTH = 128;
+    private static Map<String, Token> createdKeys = new HashMap<>();
     private String key;
     private long created;
     private long validUntil;
-    private static Map<String, Token> createdKeys = new HashMap<>();
 
     public Token() {
         this.key = createKey();
@@ -25,6 +25,12 @@ public class Token {
         this.validUntil = System.currentTimeMillis() + 900000;
 
         createdKeys.put(this.key, this);
+    }
+
+    public static Token getTokenToKey(String key) {
+        if (createdKeys.containsKey(key))
+            return createdKeys.get(key);
+        return null;
     }
 
     public String getKey() {
@@ -44,11 +50,5 @@ public class Token {
         while (newKey.isEmpty() && createdKeys.containsKey(newKey))
             newKey = RandomStringUtils.randomAlphanumeric(LENGTH);
         return newKey;
-    }
-
-    public static Token getTokenToKey(String key) {
-        if (createdKeys.containsKey(key))
-            return createdKeys.get(key);
-        return null;
     }
 }
