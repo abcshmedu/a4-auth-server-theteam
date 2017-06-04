@@ -2,6 +2,7 @@ package edu.hm.huberneumeier.shareit.media.resources;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.hm.ShareitServletContextListener;
 import edu.hm.huberneumeier.shareit.auth.media.Authorisation;
 import edu.hm.huberneumeier.shareit.auth.logic.authorisation.AuthorisationImpl;
 import edu.hm.huberneumeier.shareit.auth.logic.authorisation.ValidationResult;
@@ -13,7 +14,12 @@ import edu.hm.huberneumeier.shareit.media.logic.MediaServiceImpl;
 import edu.hm.huberneumeier.shareit.media.logic.MediaServiceResult;
 import edu.hm.huberneumeier.shareit.media.media.Book;
 import edu.hm.huberneumeier.shareit.media.media.Disc;
+import org.glassfish.hk2.api.ServiceLocator;
+import org.glassfish.jersey.server.ResourceConfig;
+import org.jvnet.hk2.guice.bridge.api.GuiceBridge;
+import org.jvnet.hk2.guice.bridge.api.GuiceIntoHK2Bridge;
 
+import javax.inject.Inject;
 import javax.print.attribute.standard.Media;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -40,7 +46,7 @@ import java.net.URL;
  * @version 2017 -04-26
  */
 @Path("/")
-public class MediaResource {
+public class MediaResource extends ResourceConfig{
     private static final String AUTH_SERVER_URL = "http://localhost:8082/shareit/auth/validate";
     private static Boolean isUnitTesting = false;
     private static final int RESPONSE_CODE_OK = 200;
@@ -49,6 +55,15 @@ public class MediaResource {
      */
     private static MediaService mediaService = new MediaServiceImpl();
     private static AuthorisationImpl authService = new AuthorisationImpl();
+
+    public MediaResource() {}
+
+    @Inject
+    public MediaResource(ServiceLocator serviceLocator) {
+        GuiceBridge.getGuiceBridge().initializeGuiceBridge(serviceLocator);
+        GuiceIntoHK2Bridge guiceBridge = serviceLocator.getService(GuiceIntoHK2Bridge.class);
+        guiceBridge.bridgeGuiceInjector(ShareitServletContextListener.getInjectorInstance());
+    }
 
     /**
      * Method to create a fresh media service.
