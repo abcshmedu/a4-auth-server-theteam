@@ -1,6 +1,9 @@
 package edu.hm.huberneumeier.shareit.auth.media;
 
-import java.util.Date;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,12 +13,23 @@ import java.util.Map;
  * @author Tobias Huber
  * @version 28.05.2017
  */
+@Entity
+//@Table(name="TUser")
 public class User {
+    @Id
     private String username;
     private String password;
-    private Date tokenExpires;
+
+    @OneToOne
+    @JoinColumn(name = "User_Token", unique = true, updatable = false)
     private Token token;
     private AuthorisationGroup authorisationGroup;
+
+    /**
+     * Default constructor.
+     */
+    public User() {
+    }
 
     /**
      * Instantiates a new User.

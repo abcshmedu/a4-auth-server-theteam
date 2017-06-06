@@ -1,5 +1,12 @@
 package edu.hm.huberneumeier.shareit.media.media;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+
 /**
  * The Medium definition.
  *
@@ -7,7 +14,14 @@ package edu.hm.huberneumeier.shareit.media.media;
  * @author Andreas Neumeier
  * @version 2017-04-12
  */
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Medium {
+    //TODO how should this be done book extends medium and disc extends medium, so both need to get the title attribute from parent class
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    private Integer id;
+
     private String title;
 
     /**

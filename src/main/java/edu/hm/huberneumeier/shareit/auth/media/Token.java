@@ -2,6 +2,8 @@ package edu.hm.huberneumeier.shareit.auth.media;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,11 +14,13 @@ import java.util.Map;
  * @author Tobias Huber
  * @version 28.05.2017
  */
+@Entity
 public class Token {
     private static final int LENGTH = 128;
     //token should be valid for 15 minutes
     private static final int VALID_TIME = 900000;
     private static Map<String, Token> createdKeys = new HashMap<>();
+    @Id
     private String key;
     private long created;
     private long validUntil;

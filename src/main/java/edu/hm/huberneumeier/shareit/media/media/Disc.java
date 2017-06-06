@@ -1,5 +1,8 @@
 package edu.hm.huberneumeier.shareit.media.media;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 /**
  * The disc definition.
  *
@@ -7,8 +10,10 @@ package edu.hm.huberneumeier.shareit.media.media;
  * @author Andreas Neumeier
  * @version 2017 -04-12
  */
+@Entity
 public class Disc extends Medium {
 
+    @Id
     private String barcode;
     private String director;
     private Integer fsk;
@@ -16,7 +21,7 @@ public class Disc extends Medium {
     /**
      * Default constructor.
      */
-    private Disc() {
+    public Disc() {
     }
 
     /**

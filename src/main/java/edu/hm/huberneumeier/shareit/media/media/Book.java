@@ -1,19 +1,24 @@
 package edu.hm.huberneumeier.shareit.media.media;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 /**
  * The book definition.
  *
  * @author Tobias Huber
  * @version 2017 -04-12
  */
+@Entity
 public class Book extends Medium {
     private String author;
+    @Id
     private String isbn;
 
     /**
      * Default constructor.
      */
-    private Book() {
+    public Book() {
     }
 
     /**
