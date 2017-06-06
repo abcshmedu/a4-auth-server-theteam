@@ -29,7 +29,7 @@ public class AuthorisationResource {
     private static final AuthorisationImpl AUTHORISATION = new AuthorisationImpl();
 
     /**
-     * Valideate request response.
+     * Validate request response.
      *
      * @param token                  the token
      * @param authorisationIDRequest the authorisation id request
@@ -38,7 +38,7 @@ public class AuthorisationResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response valideateRequest(@QueryParam("token") String token, AuthorisationIDRequest authorisationIDRequest) {
+    public Response validateRequest(@QueryParam("token") String token, AuthorisationIDRequest authorisationIDRequest) {
         ValidationResult validationResult = AUTHORISATION.validate(token, Authorisation.valueOf(authorisationIDRequest.getAuthorisationID()));
         return Response.status(validationResult.getValidationState().getCode()).entity(jsonMapper(validationResult)).build();
     }

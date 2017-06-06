@@ -31,15 +31,6 @@ public class MediaServiceImpl implements MediaService {
 
     @Override
     public MediaServiceResult addBook(Book book) {
-        //TODO get the token from the user, this is just a "mock"
-        //Token tokenFromUser = new Token();
-        //final MediaServiceResult serviceResult = validateRequest(tokenFromUser, AuthorisationResource.BOOK_CREATE);
-//
-        ////if result is not ok, there was a error, return and exit method
-        //if (!serviceResult.equals(MediaServiceResult.OK))
-        //    return serviceResult;
-
-
         //clear isbn from unnecessary characters like - or spaces
         book.clearISBN();
 
@@ -80,15 +71,6 @@ public class MediaServiceImpl implements MediaService {
 
     @Override
     public MediaServiceResult updateBook(String isbn, Book book) {
-        //TODO get the token from the user, this is just a "mock"
-        //Token tokenFromUser = new Token();
-        //final MediaServiceResult serviceResult = validateRequest(tokenFromUser, AuthorisationResource.BOOK_UPDATE);
-//
-        ////if result is not ok, there was a error, return and exit method
-        //if (!serviceResult.equals(MediaServiceResult.OK))
-        //    return serviceResult;
-
-
         //isbn cant be changed
         if (!isbn.equals(book.getIsbn())) {
             return MediaServiceResult.BAD_REQUEST;
@@ -128,15 +110,6 @@ public class MediaServiceImpl implements MediaService {
 
     @Override
     public MediaServiceResult addDisc(Disc disc) {
-        //TODO get the token from the user, this is just a "mock"
-        //Token tokenFromUser = new Token();
-        //final MediaServiceResult serviceResult = validateRequest(tokenFromUser, AuthorisationResource.DISC_CREATE);
-//
-        ////if result is not ok, there was a error, return and exit method
-        //if (!serviceResult.equals(MediaServiceResult.OK))
-        //    return serviceResult;
-
-
         //clear barcode
         disc.clearBarcode();
 
@@ -174,14 +147,6 @@ public class MediaServiceImpl implements MediaService {
 
     @Override
     public MediaServiceResult updateDisc(String barcode, Disc disc) {
-        //TODO get the token from the user, this is just a "mock"
-        //Token tokenFromUser = new Token();
-        //final MediaServiceResult serviceResult = validateRequest(tokenFromUser, AuthorisationResource.DISC_UPDATE);
-//
-        ////if result is not ok, there was a error, return and exit method
-        //if (!serviceResult.equals(MediaServiceResult.OK))
-        //    return serviceResult;
-
         if (!barcode.equals(disc.getBarcode())) {
             return MediaServiceResult.BAD_REQUEST;
         }

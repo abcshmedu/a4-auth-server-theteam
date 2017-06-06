@@ -51,7 +51,7 @@ public class AuthorisationTests {
 
     @Test
     public void unauthorized() throws IOException {
-        Response response = authorisationResource.valideateRequest("invalideToken", new AuthorisationIDRequest(0));
+        Response response = authorisationResource.validateRequest("invalideToken", new AuthorisationIDRequest(0));
         ObjectMapper objectMapper = new ObjectMapper();
         ValidationResult validationResult = objectMapper.readValue(response.getEntity().toString(), ValidationResult.class);
 
@@ -60,7 +60,7 @@ public class AuthorisationTests {
 
     @Test
     public void noPermission() throws IOException {
-        Response response = authorisationResource.valideateRequest(validToken, new AuthorisationIDRequest(0));
+        Response response = authorisationResource.validateRequest(validToken, new AuthorisationIDRequest(0));
         ObjectMapper objectMapper = new ObjectMapper();
         ValidationResult validationResult = objectMapper.readValue(response.getEntity().toString(), ValidationResult.class);
 
@@ -69,7 +69,7 @@ public class AuthorisationTests {
 
     @Test
     public void permissionGranted() throws IOException {
-        Response response = authorisationResource.valideateRequest(validToken, new AuthorisationIDRequest(1));
+        Response response = authorisationResource.validateRequest(validToken, new AuthorisationIDRequest(1));
         ObjectMapper objectMapper = new ObjectMapper();
         ValidationResult validationResult = objectMapper.readValue(response.getEntity().toString(), ValidationResult.class);
 
