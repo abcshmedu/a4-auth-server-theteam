@@ -20,8 +20,6 @@
         <mapping class="edu.hm.huberneumeier.shareit.media.media.Book" />
         <mapping class="edu.hm.huberneumeier.shareit.media.media.Disc" />
         <mapping class="edu.hm.huberneumeier.shareit.media.media.Medium" />
-        <mapping class="edu.hm.huberneumeier.shareit.auth.media.Token" />
-        <mapping class="edu.hm.huberneumeier.shareit.auth.media.User"/>
 
     </session-factory>
 
