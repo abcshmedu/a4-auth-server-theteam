@@ -7,6 +7,8 @@ import com.google.inject.servlet.ServletModule;
 
 //import edu.hm.shareit.persistence.MediaPersistence;
 //import edu.hm.shareit.persistence.MediaPersistenceImpl;
+import edu.hm.huberneumeier.shareit.media.data.MediaPersistence;
+import edu.hm.huberneumeier.shareit.media.data.MediaPersistenceImpl;
 import edu.hm.huberneumeier.shareit.media.logic.MediaService;
 import edu.hm.huberneumeier.shareit.media.logic.MediaServiceImpl;
 
@@ -21,7 +23,7 @@ public class ShareitServletContextListener extends GuiceServletContextListener {
         @Override
         protected void configureServlets() {
             bind(MediaService.class).to(MediaServiceImpl.class);
-            //bind(MediaPersistence.class).to(MediaPersistenceImpl.class);
+            bind(MediaPersistence.class).to(MediaPersistenceImpl.class);
         }
     });
 
