@@ -113,6 +113,7 @@ var updateBook = function (isbn) {
 
 
 var updateDisc = function (barcode) {
+    alert(barcode);
     var json = JSON.stringify({
         barcode: $("input[name=barcode]").val(),
         director: $("input[name=director]").val(),
@@ -192,9 +193,9 @@ var listBooks = function () {
         type: 'GET'
     })
         .done((data) => {
-        var template = "<h2>Books</h2><table class='u-full-width'>" +
-            "<thead><tr><th>Title</th><th>Author</th><th>ISBN</th></tr></thead>" +
-            "<tbody>{{#data}}<tr><td>{{title}}</td><td>{{author}}</td><td><a onclick='listBook({{isbn}})'>{{isbn}}</a></td></tr>{{/data}}</tbody></table>";
+        var template = '<h2>Books</h2><table class="u-full-width">' +
+            '<thead><tr><th>Title</th><th>Author</th><th>ISBN</th></tr></thead>' +
+            '<tbody>{{#data}}<tr><td>{{title}}</td><td>{{author}}</td><td><a onclick="listBook(\'{{isbn}}\')">{{isbn}}</a></td></tr>{{/data}}</tbody></table>';
     Mustache.parse(template);
     var output = Mustache.render(template, {data: data});
     $("#content").html(output);
@@ -210,9 +211,9 @@ var listDiscs = function () {
         type: 'GET'
     })
         .done((data) => {
-        var template = "<h2>Discs</h2><table class='u-full-width'>" +
-            "<thead><tr><th>Title</th><th>Barcode</th><th>Director</th><th>FSK</th></tr></thead>" +
-            "<tbody>{{#data}}<tr><td>{{title}}</td><td><a onclick='listDisc({{barcode}})' >{{barcode}}</a></td><td>{{director}}</td><td>{{fsk}}</td></tr>{{/data}}</tbody></table>";
+        var template = '<h2>Discs</h2><table class="u-full-width">' +
+            '<thead><tr><th>Title</th><th>Barcode</th><th>Director</th><th>FSK</th></tr></thead>' +
+            '<tbody>{{#data}}<tr><td>{{title}}</td><td><a onclick="listDisc(\'{{barcode}}\')" >{{barcode}}</a></td><td>{{director}}</td><td>{{fsk}}</td></tr>{{/data}}</tbody></table>';
     Mustache.parse(template);
     var output = Mustache.render(template, {data: data});
     $("#content").html(output);

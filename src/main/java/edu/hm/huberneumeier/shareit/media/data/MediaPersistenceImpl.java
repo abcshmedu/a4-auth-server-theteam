@@ -58,7 +58,7 @@ public class MediaPersistenceImpl implements MediaPersistence {
      */
     public List<Book> getBooks() {
         Session session = sessionFactory.openSession();
-        List<Book> books = session.createQuery("from Book").list();
+        List<Book> books = session.createQuery("from Book order by isbn").list();
         session.close();
         return books;
     }
@@ -85,7 +85,7 @@ public class MediaPersistenceImpl implements MediaPersistence {
      */
     public List<Disc> getDiscs() {
         Session session = sessionFactory.openSession();
-        List<Disc> discs = session.createQuery("from Disc").list();
+        List<Disc> discs = session.createQuery("from Disc order by barcode").list();
         session.close();
         return discs;
     }
@@ -111,7 +111,9 @@ public class MediaPersistenceImpl implements MediaPersistence {
      */
     public void updateMedia(Medium medium) {
         Session session = sessionFactory.openSession();
+        session.beginTransaction();
         session.saveOrUpdate(session.merge(medium));
+        session.getTransaction().commit();
         session.close();
     }
 }

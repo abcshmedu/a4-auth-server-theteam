@@ -305,7 +305,7 @@ public class MediaResourceTest_AllServicesRunningLocal {
         mediaResource.updateBook(EXAMPLE_ISBN, new Book("changed", "changed", EXAMPLE_ISBN), validToken);
         //Check response of get afterwards
         Response response = mediaResource.getBooks(validToken);
-        Response correctGetResponse = Response.status(200).entity("[{\"title\":\"changed\",\"author\":\"changed\",\"isbn\":\"" + EXAMPLE_ISBN + "\"},{\"title\":\"changed\",\"author\":\"changed\",\"isbn\":\"" + EXAMPLE_ISBN_2 + "\"},{\"title\":\"changed\",\"author\":\"changed\",\"isbn\":\"" + EXAMPLE_ISBN_3 + "\"}]").build();
+        Response correctGetResponse = Response.status(200).entity("[{\"title\":\"changed\",\"author\":\"changed\",\"isbn\":\"" + EXAMPLE_ISBN_3 + "\"},{\"title\":\"changed\",\"author\":\"changed\",\"isbn\":\"" + EXAMPLE_ISBN + "\"},{\"title\":\"changed\",\"author\":\"changed\",\"isbn\":\"" + EXAMPLE_ISBN_2 + "\"}]").build();
         Assert.assertEquals(correctGetResponse.toString(), response.toString());
         Assert.assertEquals(correctGetResponse.getEntity().toString(), response.getEntity().toString());
     }
@@ -566,7 +566,7 @@ public class MediaResourceTest_AllServicesRunningLocal {
         mediaResource.updateDisc(EXAMPLE_BARCODE, new Disc(EXAMPLE_BARCODE, "changed", 0, "changed"), validToken);
         //Check response of get afterwards
         Response response = mediaResource.getDiscs(validToken);
-        Response correctGetResponse = Response.status(200).entity("[{\"title\":\"changed\",\"barcode\":\"" + EXAMPLE_BARCODE + "\",\"director\":\"changed\",\"fsk\":0},{\"title\":\"changed\",\"barcode\":\"" + EXAMPLE_BARCODE_2 + "\",\"director\":\"changed\",\"fsk\":0},{\"title\":\"changed\",\"barcode\":\"" + EXAMPLE_BARCODE_3 + "\",\"director\":\"changed\",\"fsk\":0}]").build();
+        Response correctGetResponse = Response.status(200).entity("[{\"title\":\"changed\",\"barcode\":\"" + EXAMPLE_BARCODE_3 + "\",\"director\":\"changed\",\"fsk\":0},{\"title\":\"changed\",\"barcode\":\"" + EXAMPLE_BARCODE + "\",\"director\":\"changed\",\"fsk\":0},{\"title\":\"changed\",\"barcode\":\"" + EXAMPLE_BARCODE_2 + "\",\"director\":\"changed\",\"fsk\":0}]").build();
         Assert.assertEquals(correctGetResponse.toString(), response.toString());
         Assert.assertEquals(correctGetResponse.getEntity().toString(), response.getEntity().toString());
     }
