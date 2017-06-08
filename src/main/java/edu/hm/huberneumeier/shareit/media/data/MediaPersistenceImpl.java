@@ -44,9 +44,11 @@ public class MediaPersistenceImpl implements MediaPersistence {
      */
     public Book getBook(String isbn) {
         Session session = sessionFactory.openSession();
-        Book book = (Book) session.createQuery("FROM Book WHERE isbn like '" + isbn + "'").list().get(0);
+        final List<Object> data = session.createQuery("FROM Book WHERE isbn like '" + isbn + "'").list();
         session.close();
-        return book;
+        if (data.size() > 0)
+            return (Book) data.get(0);
+        return null;
     }
 
     /**
@@ -69,9 +71,11 @@ public class MediaPersistenceImpl implements MediaPersistence {
      */
     public Disc getDisc(String barcode) {
         Session session = sessionFactory.openSession();
-        Disc disc = (Disc) session.createQuery("FROM Disc WHERE barcode like '" + barcode + "'").list().get(0);
+        final List<Object> data = session.createQuery("FROM Disc WHERE barcode like '" + barcode + "'").list();
         session.close();
-        return disc;
+        if (data.size() > 0)
+            return (Disc) data.get(0);
+        return null;
     }
 
     /**
@@ -90,6 +94,7 @@ public class MediaPersistenceImpl implements MediaPersistence {
      * Save media.
      *
      * @param medium the medium
+     * @throws Exception the exception
      */
     public void saveMedia(Medium medium) {
         Session session = sessionFactory.openSession();

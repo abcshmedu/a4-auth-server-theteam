@@ -23,7 +23,7 @@ public class MediaServiceImpl implements MediaService {
      * List of all media items.
      */
     private final List<Medium> arrayList = new ArrayList<>();
-    private static final MediaPersistenceImpl MEDIA_PERSISTENCE = new MediaPersistenceImpl();
+    private final MediaPersistenceImpl mediaPersistence = new MediaPersistenceImpl();
 
     /**
      * Default constructor.
@@ -42,22 +42,18 @@ public class MediaServiceImpl implements MediaService {
         }
 
         //check if book exists
-        for (Medium medium : Utils.getMediaOfType(arrayList, Book.class)) {
-            if (((Book) medium).getIsbn().equals(book.getIsbn())) {
-                return MediaServiceResult.BAD_REQUEST;
-            }
+        if (mediaPersistence.getBook(book.getIsbn()) != null) {
+            return MediaServiceResult.BAD_REQUEST;
         }
 
         //add book if there wasn't an error
-        //arrayList.add(book);
-        MEDIA_PERSISTENCE.saveMedia(book);
-        //currentSession.persist(book);
+        mediaPersistence.saveMedia(book);
         return MediaServiceResult.CREATED;
     }
 
     @Override
     public Book getBook(String isbn) {
-        return MEDIA_PERSISTENCE.getBook(isbn);
+        return mediaPersistence.getBook(isbn);
 
         ////return (Book) currentSession.createQuery("FROM Book WHERE isbn like '" + isbn + "'").list().get(0);
         //Medium[] mediaArray = Utils.getMediaOfType(arrayList, Book.class);
@@ -72,7 +68,7 @@ public class MediaServiceImpl implements MediaService {
 
     @Override
     public Medium[] getBooks() {
-        List<Book> books = MEDIA_PERSISTENCE.getBooks();
+        List<Book> books = mediaPersistence.getBooks();
         Medium[] media = new Medium[books.size()];
         for (int i = 0; i < books.size(); i++) {
             media[i] = books.get(i);
@@ -92,7 +88,7 @@ public class MediaServiceImpl implements MediaService {
             return MediaServiceResult.BAD_REQUEST;
         }
 
-        Book result = MEDIA_PERSISTENCE.getBook(book.getIsbn());
+        Book result = mediaPersistence.getBook(book.getIsbn());
 
         //if no book with isbn found end otherwise create the new book we will store
         Book newBook;
@@ -112,7 +108,7 @@ public class MediaServiceImpl implements MediaService {
             return MediaServiceResult.NOT_MODIFIED;
         }
 
-        MEDIA_PERSISTENCE.updateMedia(newBook);
+        mediaPersistence.updateMedia(newBook);
 
         return MediaServiceResult.ACCEPTED;
     }
@@ -126,27 +122,25 @@ public class MediaServiceImpl implements MediaService {
             return MediaServiceResult.BAD_REQUEST;
         }
 
-        for (Medium medium : Utils.getMediaOfType(arrayList, Disc.class)) {
-            if (((Disc) medium).getBarcode().equals(disc.getBarcode())) {
-                return MediaServiceResult.BAD_REQUEST;
-            }
+        if (mediaPersistence.getDisc(disc.getBarcode()) != null) {
+            return MediaServiceResult.BAD_REQUEST;
         }
 
-        MEDIA_PERSISTENCE.saveMedia(disc);
+        mediaPersistence.saveMedia(disc);
         return MediaServiceResult.CREATED;
     }
 
     @Override
     public Disc getDisc(String barcode) {
-        return MEDIA_PERSISTENCE.getDisc(barcode);
+        return mediaPersistence.getDisc(barcode);
     }
 
     @Override
     public Medium[] getDiscs() {
-        List<Book> books = MEDIA_PERSISTENCE.getBooks();
-        Medium[] media = new Medium[books.size()];
-        for (int i = 0; i < books.size(); i++) {
-            media[i] = books.get(i);
+        List<Disc> discs = mediaPersistence.getDiscs();
+        Medium[] media = new Medium[discs.size()];
+        for (int i = 0; i < discs.size(); i++) {
+            media[i] = discs.get(i);
         }
         return media;
     }
@@ -161,7 +155,7 @@ public class MediaServiceImpl implements MediaService {
             return MediaServiceResult.BAD_REQUEST;
         }
 
-        Disc result = MEDIA_PERSISTENCE.getDisc(disc.getBarcode());
+        Disc result = mediaPersistence.getDisc(disc.getBarcode());
 
         //if no disc with barcode found end otherwise create the new disc we will store
         if (result == null) {
@@ -184,7 +178,7 @@ public class MediaServiceImpl implements MediaService {
             return MediaServiceResult.NOT_MODIFIED;
         }
 
-        MEDIA_PERSISTENCE.updateMedia(newDisc);
+        mediaPersistence.updateMedia(newDisc);
 
         return MediaServiceResult.ACCEPTED;
     }
