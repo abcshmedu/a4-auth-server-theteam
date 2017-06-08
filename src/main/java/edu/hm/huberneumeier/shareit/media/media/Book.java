@@ -2,6 +2,7 @@ package edu.hm.huberneumeier.shareit.media.media;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 /**
  * The book definition.
@@ -10,7 +11,7 @@ import javax.persistence.Id;
  * @version 2017 -04-12
  */
 @Entity
-public class Book extends Medium {
+public class Book extends Medium implements Serializable {
     private String author;
     @Id
     private String isbn;

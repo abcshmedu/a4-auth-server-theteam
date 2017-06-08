@@ -2,6 +2,7 @@ package edu.hm.huberneumeier.shareit.media.media;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 /**
  * The disc definition.
@@ -11,7 +12,7 @@ import javax.persistence.Id;
  * @version 2017 -04-12
  */
 @Entity
-public class Disc extends Medium {
+public class Disc extends Medium implements Serializable {
 
     @Id
     private String barcode;

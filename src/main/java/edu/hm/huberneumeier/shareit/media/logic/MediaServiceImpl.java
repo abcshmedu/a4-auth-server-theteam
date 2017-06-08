@@ -1,5 +1,6 @@
 package edu.hm.huberneumeier.shareit.media.logic;
 
+import edu.hm.huberneumeier.shareit.media.data.MediaPersistenceImpl;
 import edu.hm.huberneumeier.shareit.media.logic.helpers.Utils;
 import edu.hm.huberneumeier.shareit.media.media.Book;
 import edu.hm.huberneumeier.shareit.media.media.Disc;
@@ -22,6 +23,7 @@ public class MediaServiceImpl implements MediaService {
      * List of all media items.
      */
     private final List<Medium> arrayList = new ArrayList<>();
+    private static final MediaPersistenceImpl MEDIA_PERSISTENCE = new MediaPersistenceImpl();
 
     /**
      * Default constructor.
@@ -47,26 +49,35 @@ public class MediaServiceImpl implements MediaService {
         }
 
         //add book if there wasn't an error
-        arrayList.add(book);
+        //arrayList.add(book);
+        MEDIA_PERSISTENCE.saveMedia(book);
+        //currentSession.persist(book);
         return MediaServiceResult.CREATED;
     }
 
     @Override
     public Book getBook(String isbn) {
-        Medium[] mediaArray = Utils.getMediaOfType(arrayList, Book.class);
+        return MEDIA_PERSISTENCE.getBook(isbn);
 
-        for (Medium book : mediaArray) {
-            Book current = (Book) book;
-            if (current.getIsbn().equals(isbn)) {
-                return current;
-            }
-        }
-        return null;
+        ////return (Book) currentSession.createQuery("FROM Book WHERE isbn like '" + isbn + "'").list().get(0);
+        //Medium[] mediaArray = Utils.getMediaOfType(arrayList, Book.class);
+        //for (Medium book : mediaArray) {
+        //    Book current = (Book) book;
+        //    if (current.getIsbn().equals(isbn)) {
+        //        return current;
+        //    }
+        //}
+        //return null;
     }
 
     @Override
     public Medium[] getBooks() {
-        return Utils.getMediaOfType(arrayList, Book.class);
+        List<Book> books = MEDIA_PERSISTENCE.getBooks();
+        Medium[] media = new Medium[books.size()];
+        for (int i = 0; i < books.size(); i++) {
+            media[i] = books.get(i);
+        }
+        return media;
     }
 
     @Override
@@ -81,7 +92,7 @@ public class MediaServiceImpl implements MediaService {
             return MediaServiceResult.BAD_REQUEST;
         }
 
-        Book result = getBookByIsbn(book.getIsbn());
+        Book result = MEDIA_PERSISTENCE.getBook(book.getIsbn());
 
         //if no book with isbn found end otherwise create the new book we will store
         Book newBook;
@@ -97,14 +108,12 @@ public class MediaServiceImpl implements MediaService {
             newBook = book;
         }
 
-        int id = getIdOfMedium(newBook.getIsbn());
-
-        Book medium = (Book) arrayList.get(id);
-        if (medium.getTitle().equals(newBook.getTitle()) && medium.getAuthor().equals(newBook.getAuthor())) {
+        if (result.getTitle().equals(newBook.getTitle()) && result.getAuthor().equals(newBook.getAuthor())) {
             return MediaServiceResult.NOT_MODIFIED;
         }
 
-        arrayList.set(id, newBook);
+        MEDIA_PERSISTENCE.updateMedia(newBook);
+
         return MediaServiceResult.ACCEPTED;
     }
 
@@ -123,26 +132,23 @@ public class MediaServiceImpl implements MediaService {
             }
         }
 
-        arrayList.add(disc);
+        MEDIA_PERSISTENCE.saveMedia(disc);
         return MediaServiceResult.CREATED;
     }
 
     @Override
     public Disc getDisc(String barcode) {
-        Medium[] mediaArray = Utils.getMediaOfType(arrayList, Disc.class);
-
-        for (Medium disc : mediaArray) {
-            Disc current = (Disc) disc;
-            if (current.getBarcode().equals(barcode)) {
-                return current;
-            }
-        }
-        return null;
+        return MEDIA_PERSISTENCE.getDisc(barcode);
     }
 
     @Override
     public Medium[] getDiscs() {
-        return Utils.getMediaOfType(arrayList, Disc.class);
+        List<Book> books = MEDIA_PERSISTENCE.getBooks();
+        Medium[] media = new Medium[books.size()];
+        for (int i = 0; i < books.size(); i++) {
+            media[i] = books.get(i);
+        }
+        return media;
     }
 
     @Override
@@ -155,7 +161,7 @@ public class MediaServiceImpl implements MediaService {
             return MediaServiceResult.BAD_REQUEST;
         }
 
-        Disc result = getDiscByBarcode(disc.getBarcode());
+        Disc result = MEDIA_PERSISTENCE.getDisc(disc.getBarcode());
 
         //if no disc with barcode found end otherwise create the new disc we will store
         if (result == null) {
@@ -174,73 +180,12 @@ public class MediaServiceImpl implements MediaService {
             newDisc = new Disc(disc.getBarcode(), newDisc.getDirector(), newDisc.getFsk(), result.getTitle());
         }
 
-        int id = getIdOfMedium(newDisc.getBarcode());
-
-        Disc medium = (Disc) arrayList.get(id);
-        if (medium.getTitle().equals(newDisc.getTitle()) && medium.getDirector().equals(newDisc.getDirector()) && medium.getFsk() == newDisc.getFsk()) {
+        if (result.getTitle().equals(newDisc.getTitle()) && result.getDirector().equals(newDisc.getDirector()) && result.getFsk() == newDisc.getFsk()) {
             return MediaServiceResult.NOT_MODIFIED;
         }
 
-        arrayList.set(id, newDisc);
+        MEDIA_PERSISTENCE.updateMedia(newDisc);
+
         return MediaServiceResult.ACCEPTED;
-    }
-
-    /**
-     * Search for a special book by isbn.
-     *
-     * @param isbn the isbn of the book to find
-     * @return the book
-     */
-    private Book getBookByIsbn(String isbn) {
-        //search for book with the given isbn -> result
-        Medium[] mediaArray = Utils.getMediaOfType(arrayList, Book.class);
-        Book result = null;
-        for (Medium medium : mediaArray) {
-            Book actual = (Book) medium;
-            if (actual.getIsbn().equals(isbn)) {
-                result = actual;
-                break;
-            }
-        }
-        return result;
-    }
-
-    /**
-     * Search for a special disc by barcode.
-     *
-     * @param barcode the barcode of the disc to find
-     * @return the barcode
-     */
-    private Disc getDiscByBarcode(String barcode) {
-        Medium[] mediaArray = Utils.getMediaOfType(arrayList, Disc.class);
-        Disc result = null;
-        for (Medium medium : mediaArray) {
-            Disc actual = (Disc) medium;
-            if (actual.getBarcode().equals(barcode)) {
-                result = actual;
-                break;
-            }
-        }
-        return result;
-    }
-
-    /**
-     * Get the id of a medium in arrayList.
-     *
-     * @param identifier the identifier of the medium
-     * @return the id of the medium
-     */
-    private int getIdOfMedium(String identifier) {
-        //find out the id of the book to replace
-        int id = 0;
-        for (Medium medium : arrayList) {
-            if (medium instanceof Book && ((Book) medium).getIsbn().equals(identifier)) {
-                break;
-            } else if (medium instanceof Disc && ((Disc) medium).getBarcode().equals(identifier)) {
-                break;
-            }
-            id++;
-        }
-        return id;
     }
 }
