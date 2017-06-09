@@ -5,6 +5,7 @@
  *  @author Axel Böttcher <axel.boettcher@hm.edu>
  */
 
+Cookies.set('token', '');
 /**
  * Method to save token for authenticating the user on the other request.
  * Set a cookie with the token string.

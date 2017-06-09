@@ -3,12 +3,11 @@ package edu.hm.huberneumeier.shareit.media.resources;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.hm.ShareitServletContextListener;
-import edu.hm.huberneumeier.shareit.auth.media.Authorisation;
 import edu.hm.huberneumeier.shareit.auth.logic.authorisation.AuthorisationImpl;
 import edu.hm.huberneumeier.shareit.auth.logic.authorisation.ValidationResult;
 import edu.hm.huberneumeier.shareit.auth.logic.authorisation.ValidationState;
+import edu.hm.huberneumeier.shareit.auth.media.Authorisation;
 import edu.hm.huberneumeier.shareit.auth.media.jsonMappings.AuthorisationIDRequest;
-import edu.hm.huberneumeier.shareit.auth.resources.AuthorisationResource;
 import edu.hm.huberneumeier.shareit.media.logic.MediaService;
 import edu.hm.huberneumeier.shareit.media.logic.MediaServiceImpl;
 import edu.hm.huberneumeier.shareit.media.logic.MediaServiceResult;
@@ -20,7 +19,6 @@ import org.jvnet.hk2.guice.bridge.api.GuiceBridge;
 import org.jvnet.hk2.guice.bridge.api.GuiceIntoHK2Bridge;
 
 import javax.inject.Inject;
-import javax.print.attribute.standard.Media;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -31,12 +29,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.function.Supplier;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.function.Supplier;
 
 /**
  * Media Service is used to communicate directly with the frontend.
@@ -46,7 +44,7 @@ import java.net.URL;
  * @version 2017 -04-26
  */
 @Path("/")
-public class MediaResource extends ResourceConfig{
+public class MediaResource extends ResourceConfig {
     private static final String AUTH_SERVER_URL = "http://localhost:8082/shareit/auth/validate";
     private static Boolean isUnitTesting = false;
     private static final int RESPONSE_CODE_OK = 200;
@@ -56,7 +54,8 @@ public class MediaResource extends ResourceConfig{
     private static MediaService mediaService = new MediaServiceImpl();
     private static AuthorisationImpl authService = new AuthorisationImpl();
 
-    public MediaResource() {}
+    public MediaResource() {
+    }
 
     @Inject
     public MediaResource(ServiceLocator serviceLocator) {
@@ -271,9 +270,9 @@ public class MediaResource extends ResourceConfig{
     private Response getReturnResponse(Authorisation authorisation, String token, Supplier<Response> responsePredicate) {
         try {
             ValidationResult validationResult = null;
-            if(!isUnitTesting)
+            if (!isUnitTesting)
                 validationResult = sendValidationPost(token, jsonMapper(new AuthorisationIDRequest(authorisation.getId())));
-            else{
+            else {
                 ObjectMapper objectMapper = new ObjectMapper();
                 validationResult = objectMapper.readValue("{\"validationState\":\"SUCCESS\",\"message\":\"\"}", ValidationResult.class);
             }
@@ -294,17 +293,17 @@ public class MediaResource extends ResourceConfig{
      *
      * @param token The users token.
      * @param json  The requested operation wrapped as small json object.
-     * @return  The validation result.
+     * @return The validation result.
      * @throws Exception
      */
     private ValidationResult sendValidationPost(String token, String json) throws Exception {
 
-        URL obj = new URL(AUTH_SERVER_URL+"/?token="+token);
+        URL obj = new URL(AUTH_SERVER_URL + "/?token=" + token);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
         con.setRequestMethod("POST");
-        con.setRequestProperty( "Content-Type", MediaType.APPLICATION_JSON);
-        con.setRequestProperty( "charset", "utf-8");
+        con.setRequestProperty("Content-Type", MediaType.APPLICATION_JSON);
+        con.setRequestProperty("charset", "utf-8");
 
         // Send post request
         con.setDoOutput(true);
