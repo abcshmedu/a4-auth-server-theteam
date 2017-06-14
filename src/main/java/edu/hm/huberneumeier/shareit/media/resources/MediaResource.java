@@ -127,8 +127,7 @@ public class MediaResource extends ResourceConfig {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getBooks(@QueryParam("token") String token) {
         return getReturnResponse(
-                Authorisation.BOOK_READ,
-                token,
+                authService.validate(token, Authorisation.BOOK_READ),
                 () -> Response.status(RESPONSE_CODE_OK).entity(jsonMapper(mediaService.getBooks())).build()
         );
     }
